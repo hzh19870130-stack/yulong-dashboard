@@ -6,46 +6,47 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0b1622;color:#d4dfe8;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:16px}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #1a2d3d}
-.header h1{font-size:18px;font-weight:700;color:#fff}
-.header .meta{font-size:10px;color:#5a7a8a}
-.yr{display:grid;grid-template-columns:1fr 60px 1fr;gap:10px;align-items:center;margin-bottom:12px}
-.yr-box{background:linear-gradient(135deg,#152738,#1a2f40);border:1px solid #1e3848;border-radius:8px;padding:12px 16px;text-align:center}
-.yr-box .yr-label{font-size:12px;font-weight:600;margin-bottom:4px}
-.yr-box .yr-num{font-size:22px;font-weight:700}
-.yr-box .yr-sub{font-size:9px;color:#6b8a9a;margin-top:2px}
-.yr-vs{font-size:16px;color:#3a5a6a;font-weight:700;text-align:center}
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:12px}
-.kpi-card{background:linear-gradient(135deg,#152738,#1a2f40);border:1px solid #1e3848;border-radius:6px;padding:10px 14px}
+body{background:#0b1622;color:#d4dfe8;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:8px 12px;max-width:1400px;margin:0 auto}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #1a2d3d}
+.header h1{font-size:16px;font-weight:700;color:#fff}
+.header .meta{font-size:9px;color:#5a7a8a}
+.yr{display:grid;grid-template-columns:1fr 50px 1fr;gap:8px;align-items:center;margin-bottom:8px}
+.yr-box{background:linear-gradient(135deg,#152738,#1a2f40);border:1px solid #1e3848;border-radius:6px;padding:8px 12px;text-align:center}
+.yr-box .yr-label{font-size:11px;font-weight:600;margin-bottom:2px}
+.yr-box .yr-num{font-size:20px;font-weight:700}
+.yr-box .yr-sub{font-size:8px;color:#6b8a9a;margin-top:1px}
+.yr-vs{font-size:14px;color:#3a5a6a;font-weight:700;text-align:center}
+.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:8px}
+@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(3,1fr)}}
+.kpi-card{background:linear-gradient(135deg,#152738,#1a2f40);border:1px solid #1e3848;border-radius:5px;padding:7px 10px}
 .kpi-card:hover{border-color:#2a5a7a}
-.kpi-label{font-size:10px;color:#6b8a9a;margin-bottom:2px}
-.kpi-value{font-size:22px;font-weight:700;line-height:1.1}
-.kpi-unit{font-size:11px;font-weight:400;color:#5a8aaa;margin-left:1px}
-.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.chart-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+.kpi-label{font-size:9px;color:#6b8a9a;margin-bottom:1px}
+.kpi-value{font-size:19px;font-weight:700;line-height:1.1}
+.kpi-unit{font-size:10px;font-weight:400;color:#5a8aaa;margin-left:1px}
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.chart-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px}
 @media(max-width:900px){.chart-row,.chart-row-3{grid-template-columns:1fr}}
-.card{background:#101e2a;border:1px solid #1a2d3d;border-radius:8px;padding:14px}
-.card h3{font-size:12px;font-weight:600;color:#90caf9;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #1a2d3d}
-.card canvas{max-height:280px}
-.table-card{background:#101e2a;border:1px solid #1a2d3d;border-radius:8px;padding:14px;margin-bottom:10px}
-.table-card h3{font-size:12px;font-weight:600;color:#90caf9;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #1a2d3d}
-table{width:100%;border-collapse:collapse;font-size:10px}
-th{text-align:left;padding:5px 6px;color:#6b8a9a;font-weight:500;font-size:9px;text-transform:uppercase;border-bottom:1px solid #1a2d3d;white-space:nowrap}
-td{padding:5px 6px;border-bottom:1px solid #0f1e28;color:#c0d0dc;white-space:nowrap}
+.card{background:#101e2a;border:1px solid #1a2d3d;border-radius:6px;padding:10px}
+.card h3{font-size:11px;font-weight:600;color:#90caf9;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #1a2d3d}
+.card canvas{max-height:220px}
+.table-card{background:#101e2a;border:1px solid #1a2d3d;border-radius:6px;padding:8px 10px;margin-bottom:8px}
+.table-card h3{font-size:11px;font-weight:600;color:#90caf9;margin-bottom:4px;padding-bottom:3px;border-bottom:1px solid #1a2d3d}
+table{width:100%;border-collapse:collapse;font-size:9px}
+th{text-align:left;padding:3px 5px;color:#6b8a9a;font-weight:500;font-size:8px;text-transform:uppercase;border-bottom:1px solid #1a2d3d;white-space:nowrap}
+td{padding:3px 5px;border-bottom:1px solid #0f1e28;color:#c0d0dc;white-space:nowrap}
 tr:hover td{background:#152738}
-.wc{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;padding:10px;min-height:200px}
-.wc span{display:inline-block;padding:2px 6px;border-radius:3px;transition:transform .15s;cursor:default}
-.wc span:hover{transform:scale(1.15)}
+.wc{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;align-content:center;gap:3px 8px;padding:6px;min-height:180px;line-height:1.2}
+.wc span{display:inline-block;padding:1px 4px;border-radius:2px;transition:transform .15s;cursor:default;white-space:nowrap}
+.wc span:hover{transform:scale(1.2);z-index:10}
 .up{color:#81c784}.down{color:#ef5350}
-.footer{text-align:center;padding:12px;color:#3a5a6a;font-size:9px}
-.footer span{margin:0 6px}
+.footer{text-align:center;padding:6px;color:#3a5a6a;font-size:8px}
+.footer span{margin:0 4px}
 </style>
 </head>
 <body>
 
 <div class="header">
-<div><h1>🏢 裕隆电商 · 数据大屏</h1><div class="meta">2025-2026 · 570天 · 2026-07-26 18:17</div></div>
+<div><h1>🏢 裕隆电商 · 数据大屏</h1><div class="meta">2025-2026 · 570天 · 2026-07-26 18:19</div></div>
 </div>
 
 <div class="yr">
@@ -100,15 +101,15 @@ new Chart(document.getElementById('chartProduct'),{type:'bar',data:{labels:["代
 new Chart(document.getElementById('chart7Day'),{type:'line',data:{labels:["2026-07-18", "2026-07-19", "2026-07-20", "2026-07-21", "2026-07-22", "2026-07-23", "2026-07-24"],datasets:[{data:[395035.08, 378802.3, 237965.12, 292846.4, 270835.34, 255614.66, 276094.36],borderColor:'#81c784',backgroundColor:'rgba(129,199,132,0.1)',fill:true,tension:0.4,pointRadius:4,pointBackgroundColor:'#81c784'}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:function(v){return v>=1e4?(v/1e4).toFixed(0)+'万':v}}}}}});
 
 (function(){
-var words=[{"text": "500元代金券【HCT】", "weight": 56, "gmv": 15858951.09}, {"text": "1000元代金券【HCT】", "weight": 56, "gmv": 8463512.79}, {"text": "1000元代金券[HCT]", "weight": 56, "gmv": 3942184.85}, {"text": "1000元代金券【流行百货线下扫码专享】", "weight": 56, "gmv": 2657773.87}, {"text": "980代1000元鹤城通", "weight": 56, "gmv": 2549509.2}, {"text": "裕隆超市50团购4次卡", "weight": 56, "gmv": 2145764.59}, {"text": "【新年特惠】裕隆集团流行百货1000元代金券（可用券）", "weight": 56, "gmv": 1710644.47}, {"text": "1000元代金券裕隆集团流行百货", "weight": 56, "gmv": 1665232.77}, {"text": "1000元代金券【流行百货扫码专享】", "weight": 56, "gmv": 1606091.3}, {"text": "50元代金券【裕隆超市专用】", "weight": 56, "gmv": 1466520.98}, {"text": "100元代金券【超市专用】", "weight": 56, "gmv": 1363639.98}, {"text": "裕隆超市100团购2次卡", "weight": 56, "gmv": 1333448.53}, {"text": "4850代5000元鹤城通", "weight": 56, "gmv": 1050413.0}, {"text": "200元代金券裕隆超市【超值专享】", "weight": 56, "gmv": 1041200.69}, {"text": "裕隆集团流行百货500元代金券", "weight": 56, "gmv": 998106.62}, {"text": "超市50团购4次卡", "weight": 56, "gmv": 959546.06}, {"text": "100元代金券【裕隆超市专用】", "weight": 56, "gmv": 936630.86}, {"text": "【新年特惠】裕隆集团流行百货1000元代金券", "weight": 56, "gmv": 866728.9}, {"text": "500元代金券【裕隆超市】【HCT】", "weight": 56, "gmv": 828713.61}, {"text": "50元代金券【超市专用】", "weight": 56, "gmv": 806374.39}, {"text": "500元代金券[HCT]", "weight": 56, "gmv": 801610.78}, {"text": "爱之城流行百货1000元代金券", "weight": 56, "gmv": 748083.4}, {"text": "200元代金券[HCT]", "weight": 56, "gmv": 683111.0}, {"text": "3000元代金券【HCT】", "weight": 56, "gmv": 654388.8}, {"text": "200元代金券【HCT】", "weight": 56, "gmv": 640766.58}, {"text": "300元代金券【HCT】", "weight": 56, "gmv": 637903.32}, {"text": "300元代金券【裕隆超市】【HCT】", "weight": 56, "gmv": 610852.79}, {"text": "500元代金券【流行百货3店通用】", "weight": 56, "gmv": 582594.55}, {"text": "500元代金券【流行百货线下扫码专享】", "weight": 56, "gmv": 551846.18}, {"text": "500元代金券裕隆集团流行百货", "weight": 56, "gmv": 550292.06}, {"text": "100元代金券【裕隆超市】", "weight": 56, "gmv": 527374.55}, {"text": "1000元惠享卡【HCT】", "weight": 56, "gmv": 510377.77}, {"text": "490代500元鹤城通", "weight": 56, "gmv": 492410.8}, {"text": "裕隆集团流行百货1000元代金券", "weight": 56, "gmv": 450459.9}, {"text": "【淇滨、浚县、山城】超市50团购4次卡", "weight": 56, "gmv": 433654.67}, {"text": "1000元代金券 | 【HCT】", "weight": 56, "gmv": 431392.66}, {"text": "300元代金券「购物中心、爱尚城流行百货」", "weight": 56, "gmv": 411301.45}, {"text": "1000元代金券 | 裕隆集团爱之城流行百货", "weight": 56, "gmv": 407409.7}, {"text": "100元代金券【裕隆大众服饰】", "weight": 56, "gmv": 367793.82}, {"text": "【双节畅享】1000元代金券裕隆集团爱之城流行百货", "weight": 56, "gmv": 364196.2}, {"text": "1000元代金券裕隆集团爱之城流行百货", "weight": 56, "gmv": 363187.4}, {"text": "1000元代金券 | 【爱之城专用】裕隆集团流行百货", "weight": 56, "gmv": 354690.2}, {"text": "超市100团购2次", "weight": 56, "gmv": 348795.84}, {"text": "500元代金券裕隆超市【超值专享】", "weight": 56, "gmv": 331428.8}, {"text": "【冰凉一夏Summer】裕隆动漫城100枚游戏币（2店通用）", "weight": 56, "gmv": 313939.76}, {"text": "500元代金券 | 【爱之城流行百货专用】", "weight": 56, "gmv": 297576.6}, {"text": "1000元代金券裕隆集团流行百货【一次消费完毕】", "weight": 56, "gmv": 286431.3}, {"text": "超市50团购2次", "weight": 56, "gmv": 281593.36}, {"text": "500元代金券 | 【淇滨区】裕隆集团流行百货代金券", "weight": 56, "gmv": 269546.51}, {"text": "50元代金券【裕隆超市】", "weight": 56, "gmv": 266829.54}, {"text": "300元代金券「购物中心、爱尚城流行百货」「双节畅享」", "weight": 56, "gmv": 249110.56}, {"text": "300元代金券【裕隆大众服饰】", "weight": 56, "gmv": 218195.86}, {"text": "裕隆超市100团购5次卡", "weight": 56, "gmv": 215325.02}, {"text": "1000元代金券【裕隆集团3店通用】流行百货", "weight": 56, "gmv": 212969.68}, {"text": "【暖冬派对】裕隆动漫城100枚游戏币（2店通用）", "weight": 56, "gmv": 211849.43}, {"text": "1000元代金券【流行百货3店专享】", "weight": 56, "gmv": 209437.75}, {"text": "300元代金券【购物中心、爱尚城流行百货】", "weight": 56, "gmv": 205860.24}, {"text": "【心动520】爱之城流行百货1000元代金券", "weight": 56, "gmv": 203607.85}, {"text": "1000元代金券「鹤诚通」「可用券」", "weight": 56, "gmv": 195901.2}, {"text": "裕隆超市100团购2次", "weight": 56, "gmv": 180588.92}, {"text": "200元代金券【裕隆大众服饰】", "weight": 56, "gmv": 179518.7}, {"text": "【暖冬派对】裕隆动漫城268枚游戏币（2店通用）", "weight": 56, "gmv": 176586.69}, {"text": "【冰凉一夏Summer】裕隆动漫城268枚游戏币（2店通用）", "weight": 56, "gmv": 173658.1}, {"text": "【裕隆女神节】爱之城流行百货1000元代金券", "weight": 56, "gmv": 172204.1}, {"text": "1000元代金券【流行百货3店通用】", "weight": 56, "gmv": 161827.6}, {"text": "500元惠享卡【HCT】", "weight": 56, "gmv": 153547.85}, {"text": "裕隆超市50团购2次", "weight": 56, "gmv": 151248.26}, {"text": "裕隆集团流行百货500元代金券【爱之城专用】", "weight": 56, "gmv": 147900.75}, {"text": "300元代金券【中心店百一】", "weight": 56, "gmv": 147617.13}, {"text": "【新年特惠】裕隆集团流行百货|1000元代金券", "weight": 56, "gmv": 145302.5}, {"text": "300元代金券 | 【淇滨区】裕隆购物中心流行百货", "weight": 56, "gmv": 136260.75}, {"text": "【新年特惠】爱之城鞋服1000元代金券", "weight": 56, "gmv": 134878.5}, {"text": "【新年特惠】大众服饰300元代金券（可用券）", "weight": 56, "gmv": 125354.07}, {"text": "【新年特惠】裕隆动漫城150枚游戏币（2店通用）", "weight": 56, "gmv": 123487.65}, {"text": "1000元代金券 | 【淇滨区】裕隆集团流行百货", "weight": 55, "gmv": 121376.1}, {"text": "【可转赠】爱之城流行百货1000元代金券（可用券）", "weight": 55, "gmv": 119562.2}, {"text": "1000元代金券【服百】", "weight": 55, "gmv": 115228.5}, {"text": "200元代金券【裕隆超市】【HCT】", "weight": 55, "gmv": 115155.18}, {"text": "大众服饰200元代金券|5店通用", "weight": 55, "gmv": 114556.16}, {"text": "1000元代金券裕隆超市【超值专享】", "weight": 55, "gmv": 107962.15}, {"text": "金枕头榴莲（500g/袋）到手2袋共计2斤", "weight": 55, "gmv": 106447.19}, {"text": "裕隆超市100团购3次", "weight": 55, "gmv": 106142.76}, {"text": "【淇滨、浚县、山城】超市50团购2次", "weight": 55, "gmv": 104944.22}, {"text": "200元代金券【裕隆超市专用】", "weight": 55, "gmv": 104474.48}, {"text": "1000元代金券【中心店百一】", "weight": 54, "gmv": 99518.1}, {"text": "【心动520】裕隆集团流行百货500元代金券", "weight": 54, "gmv": 99163.1}, {"text": "【裕隆优选】无抗鲜鸡蛋30枚", "weight": 54, "gmv": 94763.29}, {"text": "1000元代金券（鹤城通）", "weight": 54, "gmv": 89356.4}, {"text": "【元宵】【可转赠】爱之城流行百货1000元代金券（可用券）", "weight": 54, "gmv": 87785.0}, {"text": "【新年特惠】100元超市通用代金券", "weight": 54, "gmv": 86678.23}, {"text": "300元代金券裕隆大众服饰", "weight": 54, "gmv": 85588.89}, {"text": "1000元代金券", "weight": 54, "gmv": 84053.23}, {"text": "200元代金券裕隆大众服饰", "weight": 54, "gmv": 83890.76}, {"text": "197代200元鹤城通", "weight": 54, "gmv": 83315.24}, {"text": "【金马贺岁】普通厅双人影票「春节可用」", "weight": 53, "gmv": 80607.8}, {"text": "【裕隆贺岁专享】心向莲速冻金枕榴莲肉（500g/袋）", "weight": 53, "gmv": 80554.89}, {"text": "200元代金券【裕隆超市】", "weight": 53, "gmv": 78424.27}, {"text": "【特惠套餐】普通厅双人影票", "weight": 53, "gmv": 76953.14}, {"text": "裕隆心向莲速冻金枕榴莲肉500g/袋", "weight": 53, "gmv": 75855.65}, {"text": "500元代金券【中心店百一】", "weight": 53, "gmv": 73717.5}];
+var words=[{"text": "500元代金券【HCT】", "weight": 60, "gmv": 15858951.09}, {"text": "1000元代金券【HCT】", "weight": 38, "gmv": 8463512.79}, {"text": "1000元代金券[HCT]", "weight": 25, "gmv": 3942184.85}, {"text": "1000元代金券【流行百货线下扫码专享】", "weight": 21, "gmv": 2657773.87}, {"text": "980代1000元鹤城通", "weight": 21, "gmv": 2549509.2}, {"text": "裕隆超市50团购4次卡", "weight": 19, "gmv": 2145764.59}, {"text": "【新年特惠】裕隆集团流行百货1000元代金券（可用", "weight": 18, "gmv": 1710644.47}, {"text": "1000元代金券裕隆集团流行百货", "weight": 18, "gmv": 1665232.77}, {"text": "1000元代金券【流行百货扫码专享】", "weight": 18, "gmv": 1606091.3}, {"text": "50元代金券【裕隆超市专用】", "weight": 17, "gmv": 1466520.98}, {"text": "100元代金券【超市专用】", "weight": 17, "gmv": 1363639.98}, {"text": "裕隆超市100团购2次卡", "weight": 17, "gmv": 1333448.53}, {"text": "4850代5000元鹤城通", "weight": 16, "gmv": 1050413.0}, {"text": "200元代金券裕隆超市【超值专享】", "weight": 16, "gmv": 1041200.69}, {"text": "裕隆集团流行百货500元代金券", "weight": 16, "gmv": 998106.62}, {"text": "超市50团购4次卡", "weight": 16, "gmv": 959546.06}, {"text": "100元代金券【裕隆超市专用】", "weight": 16, "gmv": 936630.86}, {"text": "【新年特惠】裕隆集团流行百货1000元代金券", "weight": 16, "gmv": 866728.9}, {"text": "500元代金券【裕隆超市】【HCT】", "weight": 16, "gmv": 828713.61}, {"text": "50元代金券【超市专用】", "weight": 16, "gmv": 806374.39}, {"text": "500元代金券[HCT]", "weight": 16, "gmv": 801610.78}, {"text": "爱之城流行百货1000元代金券", "weight": 15, "gmv": 748083.4}, {"text": "200元代金券[HCT]", "weight": 15, "gmv": 683111.0}, {"text": "3000元代金券【HCT】", "weight": 15, "gmv": 654388.8}, {"text": "200元代金券【HCT】", "weight": 15, "gmv": 640766.58}, {"text": "300元代金券【HCT】", "weight": 15, "gmv": 637903.32}, {"text": "300元代金券【裕隆超市】【HCT】", "weight": 15, "gmv": 610852.79}, {"text": "500元代金券【流行百货3店通用】", "weight": 15, "gmv": 582594.55}, {"text": "500元代金券【流行百货线下扫码专享】", "weight": 15, "gmv": 551846.18}, {"text": "500元代金券裕隆集团流行百货", "weight": 15, "gmv": 550292.06}, {"text": "100元代金券【裕隆超市】", "weight": 15, "gmv": 527374.55}, {"text": "1000元惠享卡【HCT】", "weight": 15, "gmv": 510377.77}, {"text": "490代500元鹤城通", "weight": 15, "gmv": 492410.8}, {"text": "裕隆集团流行百货1000元代金券", "weight": 15, "gmv": 450459.9}, {"text": "【淇滨、浚县、山城】超市50团购4次卡", "weight": 14, "gmv": 433654.67}, {"text": "1000元代金券 | 【HCT】", "weight": 14, "gmv": 431392.66}, {"text": "300元代金券「购物中心、爱尚城流行百货」", "weight": 14, "gmv": 411301.45}, {"text": "1000元代金券 | 裕隆集团爱之城流行百货", "weight": 14, "gmv": 407409.7}, {"text": "100元代金券【裕隆大众服饰】", "weight": 14, "gmv": 367793.82}, {"text": "【双节畅享】1000元代金券裕隆集团爱之城流行百货", "weight": 14, "gmv": 364196.2}, {"text": "1000元代金券裕隆集团爱之城流行百货", "weight": 14, "gmv": 363187.4}, {"text": "1000元代金券 | 【爱之城专用】裕隆集团流行百", "weight": 14, "gmv": 354690.2}, {"text": "超市100团购2次", "weight": 14, "gmv": 348795.84}, {"text": "500元代金券裕隆超市【超值专享】", "weight": 14, "gmv": 331428.8}, {"text": "【冰凉一夏Summer】裕隆动漫城100枚游戏币（", "weight": 14, "gmv": 313939.76}, {"text": "500元代金券 | 【爱之城流行百货专用】", "weight": 14, "gmv": 297576.6}, {"text": "1000元代金券裕隆集团流行百货【一次消费完毕】", "weight": 14, "gmv": 286431.3}, {"text": "超市50团购2次", "weight": 14, "gmv": 281593.36}, {"text": "500元代金券 | 【淇滨区】裕隆集团流行百货代金", "weight": 14, "gmv": 269546.51}, {"text": "50元代金券【裕隆超市】", "weight": 14, "gmv": 266829.54}, {"text": "300元代金券「购物中心、爱尚城流行百货」「双节畅", "weight": 14, "gmv": 249110.56}, {"text": "300元代金券【裕隆大众服饰】", "weight": 14, "gmv": 218195.86}, {"text": "裕隆超市100团购5次卡", "weight": 14, "gmv": 215325.02}, {"text": "1000元代金券【裕隆集团3店通用】流行百货", "weight": 14, "gmv": 212969.68}, {"text": "【暖冬派对】裕隆动漫城100枚游戏币（2店通用）", "weight": 14, "gmv": 211849.43}, {"text": "1000元代金券【流行百货3店专享】", "weight": 14, "gmv": 209437.75}, {"text": "300元代金券【购物中心、爱尚城流行百货】", "weight": 14, "gmv": 205860.24}, {"text": "【心动520】爱之城流行百货1000元代金券", "weight": 14, "gmv": 203607.85}, {"text": "1000元代金券「鹤诚通」「可用券」", "weight": 14, "gmv": 195901.2}, {"text": "裕隆超市100团购2次", "weight": 14, "gmv": 180588.92}, {"text": "200元代金券【裕隆大众服饰】", "weight": 14, "gmv": 179518.7}, {"text": "【暖冬派对】裕隆动漫城268枚游戏币（2店通用）", "weight": 14, "gmv": 176586.69}, {"text": "【冰凉一夏Summer】裕隆动漫城268枚游戏币（", "weight": 14, "gmv": 173658.1}, {"text": "【裕隆女神节】爱之城流行百货1000元代金券", "weight": 14, "gmv": 172204.1}, {"text": "1000元代金券【流行百货3店通用】", "weight": 14, "gmv": 161827.6}, {"text": "500元惠享卡【HCT】", "weight": 14, "gmv": 153547.85}, {"text": "裕隆超市50团购2次", "weight": 14, "gmv": 151248.26}, {"text": "裕隆集团流行百货500元代金券【爱之城专用】", "weight": 14, "gmv": 147900.75}, {"text": "300元代金券【中心店百一】", "weight": 14, "gmv": 147617.13}, {"text": "【新年特惠】裕隆集团流行百货|1000元代金券", "weight": 14, "gmv": 145302.5}, {"text": "300元代金券 | 【淇滨区】裕隆购物中心流行百货", "weight": 14, "gmv": 136260.75}, {"text": "【新年特惠】爱之城鞋服1000元代金券", "weight": 14, "gmv": 134878.5}, {"text": "【新年特惠】大众服饰300元代金券（可用券）", "weight": 14, "gmv": 125354.07}, {"text": "【新年特惠】裕隆动漫城150枚游戏币（2店通用）", "weight": 14, "gmv": 123487.65}, {"text": "1000元代金券 | 【淇滨区】裕隆集团流行百货", "weight": 14, "gmv": 121376.1}, {"text": "【可转赠】爱之城流行百货1000元代金券（可用券）", "weight": 14, "gmv": 119562.2}, {"text": "1000元代金券【服百】", "weight": 14, "gmv": 115228.5}, {"text": "200元代金券【裕隆超市】【HCT】", "weight": 14, "gmv": 115155.18}, {"text": "大众服饰200元代金券|5店通用", "weight": 14, "gmv": 114556.16}, {"text": "1000元代金券裕隆超市【超值专享】", "weight": 14, "gmv": 107962.15}];
 var wc=document.getElementById('wordCloud');
 var wc_colors=['#4fc3f7','#81c784','#ffb74d','#e57373','#ba68c8','#4dd0e1','#aed581','#ff8a65','#90a4ae','#64b5f6'];
 words.forEach(function(w,i){
 var s=document.createElement('span');
 s.textContent=w.text;
-s.style.fontSize=(w.weight*0.6+10)+'px';
+s.style.fontSize=w.weight+'px';
 s.style.color=wc_colors[i%wc_colors.length];
-s.style.opacity=0.75+Math.random()*0.25;
+s.style.opacity=0.7+Math.random()*0.3;
 s.title='¥'+(w.gmv/10000).toFixed(1)+'万';
 wc.appendChild(s);
 });
