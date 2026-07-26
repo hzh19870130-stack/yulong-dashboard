@@ -2,122 +2,116 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>裕隆电商 · 数据大屏</title>
+<title>裕隆电商 · 数据大屏 v5</title>
+<script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0f1923;color:#e0e6ed;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:20px;min-height:100vh}
-.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid #1e3040}
-.header h1{font-size:20px;font-weight:700;color:#fff}
-.header .meta{font-size:10px;color:#5a7a8a;margin-top:3px}
-
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:18px}
-.kpi-card{background:linear-gradient(135deg,#162838,#1a3040);border:1px solid #1e3848;border-radius:8px;padding:14px 18px;transition:transform .15s}
-.kpi-card:hover{transform:translateY(-2px);border-color:#2a5a7a}
-.kpi-label{font-size:10px;color:#6b8a9a;margin-bottom:3px;letter-spacing:.3px}
-.kpi-value{font-size:26px;font-weight:700;line-height:1.1}
-.kpi-unit{font-size:12px;font-weight:400;color:#5a8aaa;margin-left:1px}
-.sub{font-size:9px;color:#5a7a8a;margin-top:2px}
-
-.section{background:#121f2b;border:1px solid #1a3040;border-radius:8px;padding:16px;margin-bottom:14px}
-.section h2{font-size:14px;font-weight:600;color:#90caf9;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #1e3040}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
-
-table{width:100%;border-collapse:collapse;font-size:11px}
-th{text-align:left;padding:6px 7px;color:#6b8a9a;font-weight:500;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid #1e3040;white-space:nowrap}
-td{padding:6px 7px;border-bottom:1px solid #0f1e28;color:#c8d6e0;white-space:nowrap}
-tr:hover td{background:#162838}
+body{background:#0b1622;color:#d4dfe8;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:16px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #1a2d3d}
+.header h1{font-size:18px;font-weight:700;color:#fff}
+.header .meta{font-size:10px;color:#5a7a8a}
+.yr{display:grid;grid-template-columns:1fr 60px 1fr;gap:10px;align-items:center;margin-bottom:12px}
+.yr-box{background:linear-gradient(135deg,#152738,#1a2f40);border:1px solid #1e3848;border-radius:8px;padding:12px 16px;text-align:center}
+.yr-box .yr-label{font-size:12px;font-weight:600;margin-bottom:4px}
+.yr-box .yr-num{font-size:22px;font-weight:700}
+.yr-box .yr-sub{font-size:9px;color:#6b8a9a;margin-top:2px}
+.yr-vs{font-size:16px;color:#3a5a6a;font-weight:700;text-align:center}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:12px}
+.kpi-card{background:linear-gradient(135deg,#152738,#1a2f40);border:1px solid #1e3848;border-radius:6px;padding:10px 14px}
+.kpi-card:hover{border-color:#2a5a7a}
+.kpi-label{font-size:10px;color:#6b8a9a;margin-bottom:2px}
+.kpi-value{font-size:22px;font-weight:700;line-height:1.1}
+.kpi-unit{font-size:11px;font-weight:400;color:#5a8aaa;margin-left:1px}
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.chart-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+@media(max-width:900px){.chart-row,.chart-row-3{grid-template-columns:1fr}}
+.card{background:#101e2a;border:1px solid #1a2d3d;border-radius:8px;padding:14px}
+.card h3{font-size:12px;font-weight:600;color:#90caf9;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #1a2d3d}
+.card canvas{max-height:280px}
+.table-card{background:#101e2a;border:1px solid #1a2d3d;border-radius:8px;padding:14px;margin-bottom:10px}
+.table-card h3{font-size:12px;font-weight:600;color:#90caf9;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #1a2d3d}
+table{width:100%;border-collapse:collapse;font-size:10px}
+th{text-align:left;padding:5px 6px;color:#6b8a9a;font-weight:500;font-size:9px;text-transform:uppercase;border-bottom:1px solid #1a2d3d;white-space:nowrap}
+td{padding:5px 6px;border-bottom:1px solid #0f1e28;color:#c0d0dc;white-space:nowrap}
+tr:hover td{background:#152738}
+.wc{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;padding:10px;min-height:200px}
+.wc span{display:inline-block;padding:2px 6px;border-radius:3px;transition:transform .15s;cursor:default}
+.wc span:hover{transform:scale(1.15)}
 .up{color:#81c784}.down{color:#ef5350}
-
-.year-compare{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:14px}
-.year-box{background:#162838;border:1px solid #1e3848;border-radius:8px;padding:14px;text-align:center}
-.year-box .year{font-size:13px;color:#90caf9;font-weight:600;margin-bottom:6px}
-.year-box .num{font-size:24px;font-weight:700}
-.year-box .label{font-size:10px;color:#6b8a9a;margin-top:3px}
-.vs{font-size:18px;color:#5a7a8a;font-weight:700}
-
-.highlight{background:#1a3040}
-.footer{text-align:center;padding:14px;color:#3a5a6a;font-size:9px}
+.footer{text-align:center;padding:12px;color:#3a5a6a;font-size:9px}
 .footer span{margin:0 6px}
 </style>
 </head>
 <body>
 
 <div class="header">
-<div>
-<h1>🏢 裕隆电商 · 数据大屏</h1>
-<div class="meta">2025-2026 全量数据 · 570天 · 更新于 2026-07-26 17:47</div>
-</div>
+<div><h1>🏢 裕隆电商 · 数据大屏</h1><div class="meta">2025-2026 · 570天 · 2026-07-26 18:00</div></div>
 </div>
 
-<!-- 年度对比卡片 -->
-<div class="year-compare">
-<div class="year-box">
-<div class="year">📅 2025年</div>
-<div class="num" style="color:#4fc3f7">3032.8万</div>
-<div class="label">21.5万单 · 365天 · 日均8.3万</div>
-</div>
-<div class="vs">VS</div>
-<div class="year-box">
-<div class="year">📅 2026年（截至7月）</div>
-<div class="num" style="color:#81c784">4684.7万</div>
-<div class="label">23.6万单 · 205天 · 日均22.9万 · <span class="up">↑54.5%</span></div>
-</div>
+<div class="yr">
+<div class="yr-box"><div class="yr-label" style="color:#4fc3f7">📅 2025 全年</div><div class="yr-num" style="color:#4fc3f7">3032.8万</div><div class="yr-sub">21.5万单 · 365天 · 日均8.3万</div></div>
+<div class="yr-vs">VS</div>
+<div class="yr-box"><div class="yr-label" style="color:#81c784">📅 2026 截至7月</div><div class="yr-num" style="color:#81c784">4684.7万</div><div class="yr-sub">23.6万单 · 205天 · 日均22.9万 · <span class="up">+54.5%</span></div></div>
 </div>
 
-<!-- KPI 卡片 -->
-<div class="kpi-grid">
-<div class="kpi-card"><div class="kpi-label">两年累计 GMV</div><div class="kpi-value" style="color:#4fc3f7">7717.5万<span class="kpi-unit"></span></div></div>
-<div class="kpi-card"><div class="kpi-label">两年累计单数</div><div class="kpi-value" style="color:#4fc3f7">45.1万<span class="kpi-unit">单</span></div></div>
-<div class="kpi-card"><div class="kpi-label">日均 GMV (2026)</div><div class="kpi-value" style="color:#4fc3f7">22.9万<span class="kpi-unit"></span></div><div class="sub">同比 <span class="up">↑175.0%</span></div></div>
-<div class="kpi-card"><div class="kpi-label">2025 日均</div><div class="kpi-value" style="color:#4fc3f7">8.3万<span class="kpi-unit"></span></div></div>
-<div class="kpi-card"><div class="kpi-label">覆盖月份</div><div class="kpi-value" style="color:#4fc3f7">19<span class="kpi-unit">个月</span></div></div>
-<div class="kpi-card"><div class="kpi-label">异常天数</div><div class="kpi-value" style="color:#ef9a9a">275<span class="kpi-unit">天</span></div><div class="sub">占比 48%</div></div>
+<div class="kpi-grid"><div class="kpi-card"><div class="kpi-label">累计 GMV</div><div class="kpi-value" style="color:#4fc3f7">7717.5万<span class="kpi-unit"></span></div></div><div class="kpi-card"><div class="kpi-label">累计单数</div><div class="kpi-value" style="color:#4fc3f7">45.1万<span class="kpi-unit">单</span></div></div><div class="kpi-card"><div class="kpi-label">2026 日均</div><div class="kpi-value" style="color:#81c784">22.9万<span class="kpi-unit"></span></div></div><div class="kpi-card"><div class="kpi-label">2025 日均</div><div class="kpi-value" style="color:#4fc3f7">8.3万<span class="kpi-unit"></span></div></div><div class="kpi-card"><div class="kpi-label">覆盖月份</div><div class="kpi-value" style="color:#4fc3f7">19<span class="kpi-unit">个月</span></div></div><div class="kpi-card"><div class="kpi-label">异常天数</div><div class="kpi-value" style="color:#ef9a9a">275<span class="kpi-unit">天</span></div></div></div>
+
+<div class="chart-row">
+<div class="card"><h3>📈 24个月 GMV 趋势</h3><canvas id="chartMonthly"></canvas></div>
+<div class="card"><h3>🆚 月度同比 2025 vs 2026</h3><canvas id="chartYoY"></canvas></div>
 </div>
 
-<!-- 月度同比 -->
-<div class="section">
-<h2>📈 月度同比（2025 vs 2026）</h2>
-<table><thead><tr><th>月份</th><th>2025 GMV</th><th>2026 GMV</th><th>同比增长</th><th>统计天数</th></tr></thead><tbody><tr><td>1月</td><td>419.5万</td><td>492.9万</td><td><span class="up">↑17.5%</span></td><td>62天</td></tr><tr><td>2月</td><td>226.5万</td><td>973.7万</td><td><span class="up">↑329.8%</span></td><td>56天</td></tr><tr><td>3月</td><td>312.0万</td><td>783.9万</td><td><span class="up">↑151.3%</span></td><td>62天</td></tr><tr><td>4月</td><td>85.6万</td><td>402.2万</td><td><span class="up">↑369.9%</span></td><td>60天</td></tr><tr><td>5月</td><td>107.6万</td><td>773.8万</td><td><span class="up">↑618.8%</span></td><td>62天</td></tr><tr><td>6月</td><td>71.2万</td><td>735.3万</td><td><span class="up">↑933.3%</span></td><td>60天</td></tr><tr><td>7月</td><td>162.9万</td><td>522.9万</td><td><span class="up">↑221.0%</span></td><td>55天</td></tr><tr><td>8月</td><td>175.1万</td><td>—</td><td><span class="down">↓100.0%</span></td><td>31天</td></tr><tr><td>9月</td><td>217.4万</td><td>—</td><td><span class="down">↓100.0%</span></td><td>30天</td></tr><tr><td>10月</td><td>411.8万</td><td>—</td><td><span class="down">↓100.0%</span></td><td>31天</td></tr><tr><td>11月</td><td>449.7万</td><td>—</td><td><span class="down">↓100.0%</span></td><td>30天</td></tr><tr><td>12月</td><td>393.4万</td><td>—</td><td><span class="down">↓100.0%</span></td><td>31天</td></tr></tbody></table>
+<div class="chart-row">
+<div class="card"><h3>📡 渠道 GMV 占比</h3><canvas id="chartChannel"></canvas></div>
+<div class="card"><h3>🏪 门店 GMV TOP15</h3><canvas id="chartStore"></canvas></div>
 </div>
 
-<!-- 24个月趋势 -->
-<div class="section">
-<h2>📊 24个月 GMV 趋势</h2>
-<table><thead><tr><th>月份</th><th>月GMV</th><th>单数</th><th>日均</th><th>环比</th><th>天数</th></tr></thead><tbody><tr><td>2025-01</td><td>419.5万</td><td>1.8万</td><td>13.5万</td><td>→</td><td>31天</td></tr><tr><td>2025-02</td><td>226.5万</td><td>9,636</td><td>8.1万</td><td><span class="down">↓46.0%</span></td><td>28天</td></tr><tr><td>2025-03</td><td>312.0万</td><td>8,036</td><td>10.1万</td><td><span class="up">↑37.7%</span></td><td>31天</td></tr><tr><td>2025-04</td><td>85.6万</td><td>9,597</td><td>2.9万</td><td><span class="down">↓72.6%</span></td><td>30天</td></tr><tr><td>2025-05</td><td>107.6万</td><td>1.8万</td><td>3.5万</td><td><span class="up">↑25.8%</span></td><td>31天</td></tr><tr><td>2025-06</td><td>71.2万</td><td>1.2万</td><td>2.4万</td><td><span class="down">↓33.9%</span></td><td>30天</td></tr><tr><td>2025-07</td><td>162.9万</td><td>2.7万</td><td>5.3万</td><td><span class="up">↑128.9%</span></td><td>31天</td></tr><tr><td>2025-08</td><td>175.1万</td><td>1.9万</td><td>5.6万</td><td><span class="up">↑7.5%</span></td><td>31天</td></tr><tr><td>2025-09</td><td>217.4万</td><td>1.7万</td><td>7.2万</td><td><span class="up">↑24.2%</span></td><td>30天</td></tr><tr><td>2025-10</td><td>411.8万</td><td>2.3万</td><td>13.3万</td><td><span class="up">↑89.4%</span></td><td>31天</td></tr><tr><td>2025-11</td><td>449.7万</td><td>2.5万</td><td>15.0万</td><td><span class="up">↑9.2%</span></td><td>30天</td></tr><tr><td>2025-12</td><td>393.4万</td><td>2.9万</td><td>12.7万</td><td><span class="down">↓12.5%</span></td><td>31天</td></tr><tr><td>2026-01</td><td>492.9万</td><td>3.2万</td><td>15.9万</td><td><span class="up">↑25.3%</span></td><td>31天</td></tr><tr><td>2026-02</td><td>973.7万</td><td>3.8万</td><td>34.8万</td><td><span class="up">↑97.6%</span></td><td>28天</td></tr><tr><td>2026-03</td><td>783.9万</td><td>2.7万</td><td>25.3万</td><td><span class="down">↓19.5%</span></td><td>31天</td></tr><tr><td>2026-04</td><td>402.2万</td><td>2.2万</td><td>13.4万</td><td><span class="down">↓48.7%</span></td><td>30天</td></tr><tr><td>2026-05</td><td>773.8万</td><td>4.0万</td><td>25.0万</td><td><span class="up">↑92.4%</span></td><td>31天</td></tr><tr><td>2026-06</td><td>735.3万</td><td>4.3万</td><td>24.5万</td><td><span class="down">↓5.0%</span></td><td>30天</td></tr><tr><td>2026-07</td><td>522.9万</td><td>3.3万</td><td>21.8万</td><td><span class="down">↓28.9%</span></td><td>24天</td></tr></tbody></table>
+<div class="chart-row-3">
+<div class="card"><h3>🛒 品类排行</h3><canvas id="chartProduct"></canvas></div>
+<div class="card"><h3>📅 近7日趋势</h3><canvas id="chart7Day"></canvas></div>
+<div class="card"><h3>☁️ 商品动销词云</h3><div class="wc" id="wordCloud"></div></div>
 </div>
 
-<div class="grid-2">
-
-<div class="section">
-<h2>📡 渠道 GMV 排行（全时段）</h2>
-<table><thead><tr><th>渠道</th><th>累计GMV</th><th>占比</th><th>出现天数</th></tr></thead><tbody><tr><td>线下</td><td>3544.6万</td><td>45.9%</td><td>540天</td></tr><tr><td>线上搜索</td><td>1700.0万</td><td>22.0%</td><td>568天</td></tr><tr><td>团购Tab</td><td>824.5万</td><td>10.7%</td><td>565天</td></tr><tr><td>直播推荐</td><td>474.8万</td><td>6.2%</td><td>380天</td></tr><tr><td>团购搜索</td><td>388.2万</td><td>5.0%</td><td>557天</td></tr><tr><td>线上推荐</td><td>294.5万</td><td>3.8%</td><td>565天</td></tr><tr><td>-</td><td>284.4万</td><td>3.7%</td><td>568天</td></tr><tr><td>电商商城</td><td>103.5万</td><td>1.3%</td><td>545天</td></tr><tr><td>直播推荐 ⚠️</td><td>68.5万</td><td>0.9%</td><td>189天</td></tr><tr><td>线上商城</td><td>16.3万</td><td>0.2%</td><td>402天</td></tr><tr><td>分享回流</td><td>14.3万</td><td>0.2%</td><td>430天</td></tr><tr><td>线上社交</td><td>1.8万</td><td>0.0%</td><td>96天</td></tr><tr><td>收藏回访</td><td>1.7万</td><td>0.0%</td><td>93天</td></tr><tr><td>朋友Tab</td><td>2,982</td><td>0.0%</td><td>17天</td></tr></tbody></table>
-</div>
-
-<div class="section">
-<h2>🛒 品类排行</h2>
-<table><thead><tr><th>品类</th><th>累计GMV</th><th>占比</th><th>天数</th></tr></thead><tbody><tr><td>代金券</td><td>6572.9万</td><td>85.2%</td><td>568天</td></tr><tr><td>次卡</td><td>648.8万</td><td>8.4%</td><td>543天</td></tr><tr><td>团购套餐</td><td>307.6万</td><td>4.0%</td><td>568天</td></tr><tr><td>-</td><td>114.0万</td><td>1.5%</td><td>568天</td></tr><tr><td>惠享卡</td><td>74.0万</td><td>1.0%</td><td>31天</td></tr><tr><td>通兑券</td><td>772</td><td>0.0%</td><td>4天</td></tr></tbody></table>
-</div>
-
-<div class="section">
-<h2>🏪 门店 GMV TOP20</h2>
-<table><thead><tr><th>#</th><th>门店</th><th>累计GMV</th><th>天数</th></tr></thead><tbody><tr><td>1</td><td>裕隆·爱之城</td><td>2232.8万</td><td>471天</td></tr><tr><td>2</td><td>裕隆超市(爱之城)</td><td>1896.7万</td><td>275天</td></tr><tr><td>3</td><td>裕隆超市(购物中心店)</td><td>476.8万</td><td>438天</td></tr><tr><td>4</td><td>裕隆超市(爱尚城店)</td><td>402.5万</td><td>185天</td></tr><tr><td>5</td><td>裕隆优鲜生活(爱生活店)</td><td>251.6万</td><td>354天</td></tr><tr><td>6</td><td>裕隆·爱尚城</td><td>152.9万</td><td>224天</td></tr><tr><td>7</td><td>裕隆购物中心百货</td><td>93.9万</td><td>131天</td></tr><tr><td>8</td><td>裕隆超市(朝歌店)</td><td>88.7万</td><td>68天</td></tr><tr><td>9</td><td>裕隆超市(山城店)</td><td>80.7万</td><td>120天</td></tr><tr><td>10</td><td>裕隆动漫城(爱之城店)</td><td>55.3万</td><td>174天</td></tr><tr><td>11</td><td>裕隆超市(珠江路店)</td><td>53.6万</td><td>43天</td></tr><tr><td>12</td><td>裕隆超市(卫河路店)</td><td>48.3万</td><td>20天</td></tr><tr><td>13</td><td>-</td><td>40.7万</td><td>50天</td></tr><tr><td>14</td><td>裕隆超市(名门俏江南店)</td><td>40.6万</td><td>46天</td></tr><tr><td>15</td><td>裕隆超市(浚县店)</td><td>31.7万</td><td>26天</td></tr><tr><td>16</td><td>裕隆超市(淇滨店)</td><td>26.0万</td><td>20天</td></tr><tr><td>17</td><td>裕隆动漫城(爱尚城店)</td><td>23.8万</td><td>69天</td></tr><tr><td>18</td><td>裕隆优鲜生活超市(清水湾店)</td><td>17.3万</td><td>11天</td></tr><tr><td>19</td><td>裕隆大众服装(裕隆购物中心店)</td><td>16.4万</td><td>37天</td></tr><tr><td>20</td><td>裕隆超市(福田店)</td><td>16.0万</td><td>24天</td></tr></tbody></table>
-</div>
-
-<div class="section">
-<h2>📅 近 7 日</h2>
+<div class="table-card"><h3>📋 近 7 日明细</h3>
 <table><thead><tr><th>日期</th><th>周几</th><th>GMV</th><th>单数</th><th>退款率</th><th>状态</th></tr></thead><tbody><tr><td>2026-07-24</td><td>周五</td><td>27.6万</td><td>1,749</td><td>0.4%</td><td>⚠️</td></tr><tr><td>2026-07-23</td><td>周四</td><td>25.6万</td><td>1,530</td><td>0.6%</td><td>⚠️</td></tr><tr><td>2026-07-22</td><td>周三</td><td>27.1万</td><td>1,498</td><td>0.4%</td><td>⚠️</td></tr><tr><td>2026-07-21</td><td>周二</td><td>29.3万</td><td>1,944</td><td>0.1%</td><td>⚠️</td></tr><tr><td>2026-07-20</td><td>周一</td><td>23.8万</td><td>1,465</td><td>0.0%</td><td>⚠️</td></tr><tr><td>2026-07-19</td><td>周日</td><td>37.9万</td><td>2,213</td><td>0.0%</td><td>⚠️</td></tr><tr><td>2026-07-18</td><td>周六</td><td>39.5万</td><td>2,406</td><td>0.1%</td><td>⚠️</td></tr></tbody></table>
 </div>
 
+<div class="table-card"><h3>⚠️ 异常日汇总（275天）</h3>
+<table><thead><tr><th>日期</th><th>周几</th><th>月份</th><th>GMV</th><th>单数</th></tr></thead><tbody><tr><td>2026-07-24</td><td>周五</td><td>2026-07</td><td>27.6万</td><td>1,749</td></tr><tr><td>2026-07-23</td><td>周四</td><td>2026-07</td><td>25.6万</td><td>1,530</td></tr><tr><td>2026-07-22</td><td>周三</td><td>2026-07</td><td>27.1万</td><td>1,498</td></tr><tr><td>2026-07-21</td><td>周二</td><td>2026-07</td><td>29.3万</td><td>1,944</td></tr><tr><td>2026-07-20</td><td>周一</td><td>2026-07</td><td>23.8万</td><td>1,465</td></tr><tr><td>2026-07-19</td><td>周日</td><td>2026-07</td><td>37.9万</td><td>2,213</td></tr><tr><td>2026-07-18</td><td>周六</td><td>2026-07</td><td>39.5万</td><td>2,406</td></tr><tr><td>2026-07-17</td><td>周五</td><td>2026-07</td><td>26.8万</td><td>1,757</td></tr><tr><td>2026-07-16</td><td>周四</td><td>2026-07</td><td>25.5万</td><td>1,386</td></tr><tr><td>2026-07-15</td><td>周三</td><td>2026-07</td><td>23.8万</td><td>1,343</td></tr><tr><td>2026-07-14</td><td>周二</td><td>2026-07</td><td>29.9万</td><td>1,775</td></tr><tr><td>2026-07-13</td><td>周一</td><td>2026-07</td><td>22.9万</td><td>1,301</td></tr><tr><td>2026-07-12</td><td>周日</td><td>2026-07</td><td>28.2万</td><td>1,693</td></tr><tr><td>2026-07-11</td><td>周六</td><td>2026-07</td><td>31.5万</td><td>1,781</td></tr><tr><td>2026-07-10</td><td>周五</td><td>2026-07</td><td>22.1万</td><td>1,354</td></tr><tr><td>2026-07-09</td><td>周四</td><td>2026-07</td><td>14.5万</td><td>1,032</td></tr><tr><td>2026-07-06</td><td>周一</td><td>2026-07</td><td>14.6万</td><td>1,132</td></tr><tr><td>2026-07-05</td><td>周日</td><td>2026-07</td><td>9.5万</td><td>717</td></tr><tr><td>2026-07-04</td><td>周六</td><td>2026-07</td><td>2.6万</td><td>339</td></tr><tr><td>2026-07-03</td><td>周五</td><td>2026-07</td><td>13.5万</td><td>1,074</td></tr><tr><td>2026-07-02</td><td>周四</td><td>2026-07</td><td>6.4万</td><td>791</td></tr><tr><td>2026-07-01</td><td>周三</td><td>2026-07</td><td>5.3万</td><td>722</td></tr><tr><td>2026-06-30</td><td>周二</td><td>2026-06</td><td>6.8万</td><td>1,110</td></tr><tr><td>2026-06-29</td><td>周一</td><td>2026-06</td><td>4.7万</td><td>758</td></tr><tr><td>2026-06-28</td><td>周日</td><td>2026-06</td><td>8.6万</td><td>1,326</td></tr><tr><td>2026-06-25</td><td>周四</td><td>2026-06</td><td>4.8万</td><td>722</td></tr><tr><td>2026-06-24</td><td>周三</td><td>2026-06</td><td>7.9万</td><td>782</td></tr><tr><td>2026-06-22</td><td>周一</td><td>2026-06</td><td>25.8万</td><td>1,115</td></tr><tr><td>2026-06-21</td><td>周日</td><td>2026-06</td><td>53.0万</td><td>2,073</td></tr><tr><td>2026-06-20</td><td>周六</td><td>2026-06</td><td>64.3万</td><td>2,531</td></tr></tbody></table>
 </div>
 
-<div class="section">
-<h2>⚠️ 异常日汇总（275天）</h2>
-<table><thead><tr><th>日期</th><th>周几</th><th>月份</th><th>GMV</th><th>单数</th></tr></thead><tbody><tr><td>2026-07-24</td><td>周五</td><td>2026-07</td><td>27.6万</td><td>1,749</td></tr><tr><td>2026-07-23</td><td>周四</td><td>2026-07</td><td>25.6万</td><td>1,530</td></tr><tr><td>2026-07-22</td><td>周三</td><td>2026-07</td><td>27.1万</td><td>1,498</td></tr><tr><td>2026-07-21</td><td>周二</td><td>2026-07</td><td>29.3万</td><td>1,944</td></tr><tr><td>2026-07-20</td><td>周一</td><td>2026-07</td><td>23.8万</td><td>1,465</td></tr><tr><td>2026-07-19</td><td>周日</td><td>2026-07</td><td>37.9万</td><td>2,213</td></tr><tr><td>2026-07-18</td><td>周六</td><td>2026-07</td><td>39.5万</td><td>2,406</td></tr><tr><td>2026-07-17</td><td>周五</td><td>2026-07</td><td>26.8万</td><td>1,757</td></tr><tr><td>2026-07-16</td><td>周四</td><td>2026-07</td><td>25.5万</td><td>1,386</td></tr><tr><td>2026-07-15</td><td>周三</td><td>2026-07</td><td>23.8万</td><td>1,343</td></tr><tr><td>2026-07-14</td><td>周二</td><td>2026-07</td><td>29.9万</td><td>1,775</td></tr><tr><td>2026-07-13</td><td>周一</td><td>2026-07</td><td>22.9万</td><td>1,301</td></tr><tr><td>2026-07-12</td><td>周日</td><td>2026-07</td><td>28.2万</td><td>1,693</td></tr><tr><td>2026-07-11</td><td>周六</td><td>2026-07</td><td>31.5万</td><td>1,781</td></tr><tr><td>2026-07-10</td><td>周五</td><td>2026-07</td><td>22.1万</td><td>1,354</td></tr><tr><td>2026-07-09</td><td>周四</td><td>2026-07</td><td>14.5万</td><td>1,032</td></tr><tr><td>2026-07-06</td><td>周一</td><td>2026-07</td><td>14.6万</td><td>1,132</td></tr><tr><td>2026-07-05</td><td>周日</td><td>2026-07</td><td>9.5万</td><td>717</td></tr><tr><td>2026-07-04</td><td>周六</td><td>2026-07</td><td>2.6万</td><td>339</td></tr><tr><td>2026-07-03</td><td>周五</td><td>2026-07</td><td>13.5万</td><td>1,074</td></tr><tr><td>2026-07-02</td><td>周四</td><td>2026-07</td><td>6.4万</td><td>791</td></tr><tr><td>2026-07-01</td><td>周三</td><td>2026-07</td><td>5.3万</td><td>722</td></tr><tr><td>2026-06-30</td><td>周二</td><td>2026-06</td><td>6.8万</td><td>1,110</td></tr><tr><td>2026-06-29</td><td>周一</td><td>2026-06</td><td>4.7万</td><td>758</td></tr><tr><td>2026-06-28</td><td>周日</td><td>2026-06</td><td>8.6万</td><td>1,326</td></tr><tr><td>2026-06-25</td><td>周四</td><td>2026-06</td><td>4.8万</td><td>722</td></tr><tr><td>2026-06-24</td><td>周三</td><td>2026-06</td><td>7.9万</td><td>782</td></tr><tr><td>2026-06-22</td><td>周一</td><td>2026-06</td><td>25.8万</td><td>1,115</td></tr><tr><td>2026-06-21</td><td>周日</td><td>2026-06</td><td>53.0万</td><td>2,073</td></tr><tr><td>2026-06-20</td><td>周六</td><td>2026-06</td><td>64.3万</td><td>2,531</td></tr><tr><td>2026-06-19</td><td>周五</td><td>2026-06</td><td>66.1万</td><td>2,964</td></tr><tr><td>2026-06-18</td><td>周四</td><td>2026-06</td><td>63.5万</td><td>2,547</td></tr><tr><td>2026-06-17</td><td>周三</td><td>2026-06</td><td>59.7万</td><td>2,076</td></tr><tr><td>2026-06-16</td><td>周二</td><td>2026-06</td><td>50.9万</td><td>2,544</td></tr><tr><td>2026-06-15</td><td>周一</td><td>2026-06</td><td>48.4万</td><td>1,858</td></tr><tr><td>2026-06-14</td><td>周日</td><td>2026-06</td><td>52.0万</td><td>2,318</td></tr><tr><td>2026-06-13</td><td>周六</td><td>2026-06</td><td>40.1万</td><td>1,951</td></tr><tr><td>2026-06-12</td><td>周五</td><td>2026-06</td><td>30.3万</td><td>1,549</td></tr><tr><td>2026-06-11</td><td>周四</td><td>2026-06</td><td>11.9万</td><td>1,037</td></tr><tr><td>2026-06-10</td><td>周三</td><td>2026-06</td><td>9.7万</td><td>837</td></tr><tr><td>2026-06-09</td><td>周二</td><td>2026-06</td><td>11.4万</td><td>968</td></tr><tr><td>2026-06-08</td><td>周一</td><td>2026-06</td><td>10.2万</td><td>781</td></tr><tr><td>2026-06-04</td><td>周四</td><td>2026-06</td><td>9.3万</td><td>874</td></tr><tr><td>2026-06-03</td><td>周三</td><td>2026-06</td><td>8.7万</td><td>776</td></tr><tr><td>2026-05-27</td><td>周三</td><td>2026-05</td><td>8.3万</td><td>587</td></tr><tr><td>2026-05-26</td><td>周二</td><td>2026-05</td><td>29.9万</td><td>2,712</td></tr><tr><td>2026-05-25</td><td>周一</td><td>2026-05</td><td>20.8万</td><td>1,488</td></tr><tr><td>2026-05-24</td><td>周日</td><td>2026-05</td><td>31.9万</td><td>2,246</td></tr><tr><td>2026-05-23</td><td>周六</td><td>2026-05</td><td>28.0万</td><td>2,181</td></tr><tr><td>2026-05-22</td><td>周五</td><td>2026-05</td><td>25.7万</td><td>1,788</td></tr></tbody></table>
-</div>
+<div class="footer"><span>🔒 只读 · 自动更新</span><span>抖音来客日账单</span><span>裕隆时代百货 · 电商部</span></div>
 
-<div class="footer">
-<span>🔒 只读 · 自动更新</span><span>抖音来客日账单</span><span>裕隆时代百货 · 电商部</span>
-</div>
+<script>
+Chart.defaults.color='#8a9aaa';Chart.defaults.borderColor='#1a2d3d';
+Chart.defaults.font.size=10;Chart.defaults.font.family='"PingFang SC","Microsoft YaHei",sans-serif';
+var colors=['#4fc3f7','#81c784','#ffb74d','#e57373','#ba68c8','#4dd0e1','#aed581','#ff8a65','#90a4ae','#9575cd'];
 
+new Chart(document.getElementById('chartMonthly'),{type:'line',data:{labels:["2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07"],datasets:[{label:'GMV',data:[4195297.26, 2265445.84, 3120136.209999999, 855827.6299999999, 1076459.46, 711591.5199999998, 1629159.01, 1751111.2600000002, 2174013.9000000004, 4118038.0999999996, 4497113.0, 3933578.91, 4928955.760000001, 9737374.589999998, 7839358.790000001, 4021798.59, 7737937.35, 7352612.56, 5228806.41],borderColor:'#4fc3f7',backgroundColor:'rgba(79,195,247,0.08)',fill:true,tension:0.3,pointRadius:3,pointHoverRadius:5}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:function(v){return v>=1e4?(v/1e4).toFixed(0)+'万':v}}}}}});
+
+new Chart(document.getElementById('chartYoY'),{type:'bar',data:{labels:["01月", "02月", "03月", "04月", "05月", "06月", "07月", "08月", "09月", "10月", "11月", "12月"],datasets:[{label:'2025',data:[4195297.26, 2265445.84, 3120136.209999999, 855827.6299999999, 1076459.46, 711591.5199999998, 1629159.01, 1751111.2600000002, 2174013.9000000004, 4118038.0999999996, 4497113.0, 3933578.91],backgroundColor:'rgba(79,195,247,0.6)',borderRadius:3},{label:'2026',data:[4928955.760000001, 9737374.589999998, 7839358.790000001, 4021798.59, 7737937.35, 7352612.56, 5228806.41, 0, 0, 0, 0, 0],backgroundColor:'rgba(129,199,132,0.6)',borderRadius:3}]},options:{responsive:true,scales:{y:{ticks:{callback:function(v){return v>=1e4?(v/1e4).toFixed(0)+'万':v}}}}}});
+
+new Chart(document.getElementById('chartChannel'),{type:'doughnut',data:{labels:["线下", "线上搜索", "团购Tab", "直播推荐", "团购搜索", "线上推荐", "-", "电商商城"],datasets:[{data:[35446029.0, 17000193.0, 8245354.0, 4748086.0, 3882366.0, 2944663.0, 2843595.0, 1035377.0],backgroundColor:colors,borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{padding:10,font:{size:9}}}}}});
+
+new Chart(document.getElementById('chartStore'),{type:'bar',data:{labels:["裕隆超市(浚县店)", "裕隆超市(名门俏江南店)", "-", "裕隆超市(卫河路店)", "裕隆超市(珠江路店)", "裕隆动漫城(爱之城店)", "裕隆超市(山城店)", "裕隆超市(朝歌店)", "裕隆购物中心百货", "裕隆·爱尚城", "裕隆优鲜生活(爱生活店)", "裕隆超市(爱尚城店)", "裕隆超市(购物中心店)", "裕隆超市(爱之城)", "裕隆·爱之城"],datasets:[{data:[317440.0, 406110.0, 407056.0, 482672.0, 535623.0, 552961.0, 807239.0, 887383.0, 939005.0, 1529080.0, 2516356.0, 4025319.0, 4767812.0, 18967114.0, 22327806.0],backgroundColor:'rgba(79,195,247,0.6)',borderRadius:3}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{callback:function(v){return v>=1e4?(v/1e4).toFixed(0)+'万':v}}}}}});
+
+new Chart(document.getElementById('chartProduct'),{type:'bar',data:{labels:["代金券", "次卡", "团购套餐", "-", "惠享卡", "通兑券"],datasets:[{data:[65729042.0, 6488473.0, 3076322.0, 1139552.0, 740449.0, 772.0],backgroundColor:colors.slice(0,8),borderRadius:3}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:function(v){return v>=1e4?(v/1e4).toFixed(0)+'万':v}}}}}});
+
+new Chart(document.getElementById('chart7Day'),{type:'line',data:{labels:["2026-07-18", "2026-07-19", "2026-07-20", "2026-07-21", "2026-07-22", "2026-07-23", "2026-07-24"],datasets:[{data:[395035.08, 378802.3, 237965.12, 292846.4, 270835.34, 255614.66, 276094.36],borderColor:'#81c784',backgroundColor:'rgba(129,199,132,0.1)',fill:true,tension:0.4,pointRadius:4,pointBackgroundColor:'#81c784'}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:function(v){return v>=1e4?(v/1e4).toFixed(0)+'万':v}}}}}});
+
+(function(){
+var words=[{"text": "代金券", "weight": 60, "gmv": 65729042.0}, {"text": "次卡", "weight": 60, "gmv": 6488473.0}, {"text": "团购套餐", "weight": 60, "gmv": 3076322.0}, {"text": "-", "weight": 60, "gmv": 1139552.0}, {"text": "惠享卡", "weight": 60, "gmv": 740449.0}, {"text": "通兑券", "weight": 34, "gmv": 772.0}];
+var wc=document.getElementById('wordCloud');
+var wc_colors=['#4fc3f7','#81c784','#ffb74d','#e57373','#ba68c8','#4dd0e1','#aed581','#ff8a65','#90a4ae','#64b5f6'];
+words.forEach(function(w,i){
+var s=document.createElement('span');
+s.textContent=w.text;
+s.style.fontSize=(w.weight*0.6+10)+'px';
+s.style.color=wc_colors[i%wc_colors.length];
+s.style.opacity=0.75+Math.random()*0.25;
+s.title='¥'+(w.gmv/10000).toFixed(1)+'万';
+wc.appendChild(s);
+});
+})();
+</script>
 </body></html>
